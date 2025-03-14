@@ -1,11 +1,19 @@
 variable "environment" {
   description = "Environment in which infrastructure is being created."
   type = string
-  default = "dev"
 }
 
 variable "security_group_name" {
   description = "Name of security game"
   type        = string
-  default     = "mustafa-sg"
+}
+
+variable "vpc_id" {
+  description = "Id of Vpc"
+  type = string
+}
+
+variable "ec2_subnet_cidr" {
+  description = "Cird block of ec2's subnet"
+  type = string
 }

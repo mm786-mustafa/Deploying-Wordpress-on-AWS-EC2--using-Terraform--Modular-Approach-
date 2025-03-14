@@ -1,18 +1,8 @@
 data "aws_region" "current" {} # Fetching Current Region
 
-# *** Importing VPC ***
-module "vpc" {
-  source = "../vpc"
-}
-
-# *** Importing Subnets ***
-module "subnets" {
-  source = "../subnets"
-}
-
 # *** Security Group ***
 resource "aws_security_group" "my_security_group" {
-  vpc_id = module.vpc.vpc_id
+  vpc_id = var.vpc_id
   description = "Allow HTTP and MySQL access"
   tags = {
     Name = "${var.environment}-${var.security_group_name}-${data.aws_region.current.name}"
@@ -43,5 +33,5 @@ resource "aws_vpc_security_group_ingress_rule" "allow_mysql" {
   ip_protocol = "tcp"
   from_port = 3306
   to_port = 3306
-  cidr_ipv4 = module.subnets.private_subnet_1_CIDR #aws_subnet.creating_private_subnets[0].cidr_block
+  cidr_ipv4 = var.ec2_subnet_cidr #aws_subnet.creating_private_subnets[0].cidr_block
 }
